@@ -62,6 +62,11 @@ const courseCategories = {
     creditsTotal: 5,
     value: 'Health Education',
   },
+  notCategorized: {
+    codes: [],
+    creditsTotal: 0,
+    value: 'Not Categorized',
+  }
 };
 const courseCategoriesKeys = Object.keys(courseCategories);
 
@@ -72,7 +77,7 @@ const { data, errors } = Papa.parse(
 );
 
 const findCourseCategory = id => {
-  let category = 'N/A';
+  let category = 'notCategorized';
   courseCategoriesKeys.forEach(selectedCategory => {
     const codes = courseCategories[selectedCategory].codes;
     if (codes.find(code => code === id)) {
@@ -175,13 +180,28 @@ students.forEach(student => {
   // write file
   let fileString = `${name}\n\n`;
 
+  let extraElectiveCredits = [];
+
   courseCategoriesKeys.forEach(key => {
     const category = courseCategories[key];
     const filteredCourses = courses.filter(course => course.category === key);
-    const creditsCompleted = filteredCourses.reduce((acc, course) => {
+    let creditsCompleted = filteredCourses.reduce((acc, course) => {
       course.grades.forEach(grade => { acc = acc + grade.creditCompleted; });
       return acc;
     }, 0);
+
+    if (key === 'electives' && extraElectiveCredits.length) {
+      creditsCompleted = creditsCompleted + extraElectiveCredits.reduce((acc, object) => {
+        return acc + object.value;
+      }, 0);
+    }
+
+    if (creditsCompleted > category.creditsTotal) {
+      extraElectiveCredits.push({
+        category,
+        value: creditsCompleted - category.creditsTotal,
+      });
+    }
 
     const title = `${category.value}: ${creditsCompleted}/${category.creditsTotal}`;
     fileString = `${fileString}${title}\n${'='.repeat(title.length)}`;
@@ -193,6 +213,13 @@ students.forEach(student => {
         fileString = `${fileString}\n    ${grade.value}  ${grade.creditCompleted}/${grade.creditAttempted}  ${grade.month < 10 ? `0${grade.month}` : grade.month}/${grade.year}`;
       })
     });
+
+    if (key === 'electives' && extraElectiveCredits.length) {
+      fileString = `${fileString}\n  Extra Credits`;
+      extraElectiveCredits.forEach(object => {
+        fileString = `${fileString}\n    ${object.category.value}  ${object.value}`;
+      })
+    }
 
     fileString = `${fileString}\n\n\n`
   });
