@@ -1,6 +1,5 @@
 const Papa = require('papaparse');
 const fs = require('fs');
-const { removeDuplicates } = require('./helpers');
 
 const file = fs.readFileSync('./seniors.csv', 'utf8');
 
@@ -34,7 +33,7 @@ const students = data.reduce((
   }
 
   // TODO: remove rows with no grade because class is in progress
-  // TODO: check for duplicate rows
+  // TODO: remove rows with zero credit attempted
 
   lastStudent.rows.push(value);
   return acc;
@@ -45,8 +44,7 @@ if (!fs.existsSync(`${__dirname}/students/`)){
 }
 
 students.forEach(student => {
-  const { name } = student;
-  const rows = removeDuplicates(student.rows);
+  const { name, rows } = student;
 
   let fileString = `${name}\n\n9th Grade`;
   // const ninthGradeRows = rows.filter(row => row['Grade'] === 9);
@@ -56,5 +54,4 @@ students.forEach(student => {
 
   const fileName = `${name.replace(/ /g,'_').replace(/[.,]/g,'')}.txt`;
   fs.writeFileSync(`${__dirname}/students/${fileName}`, fileString);
-})
-
+});
