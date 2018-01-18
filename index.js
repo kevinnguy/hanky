@@ -82,9 +82,28 @@ const students = data.reduce((acc, value, currentIndex) => {
 students.forEach(student => {
   const { name, courses } = student;
 
-  // sort student's courses
+  // sort student's courses by name
+  courses.sort((a, b) => {
+    const titleA = a.title.toLowerCase();
+    const titleB = b.title.toLowerCase();
 
+    if (titleA < titleB) {
+      return -1;
+    }
 
+    if (titleA > titleB) {
+      return 1;
+    }
+
+    return 0;
+  });
+
+  // sort course's grades chronologically
+  courses.forEach(course => {
+    course.grades.sort((a, b) => (
+      b.year - a.year
+    )).sort((a, b) => b.month - a.month);
+  });
 
   // write file
   let fileString = `${name}\n\n`;
