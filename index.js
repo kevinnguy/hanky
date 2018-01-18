@@ -4,6 +4,56 @@ const isEqual = require('lodash/isEqual');
 
 // read and write file and directory
 const file = fs.readFileSync('./seniors.csv', 'utf8');
+
+const courseCategories = {
+  english: {
+    codes: fs.readFileSync('./codes/english.txt', 'utf8').split('\n'),
+    creditsTotal: 40,
+  },
+  history: {
+    codes: fs.readFileSync('./codes/history_ss.txt', 'utf8').split('\n'),
+    creditsTotal: 30,
+  },
+  math: {
+    codes: fs.readFileSync('./codes/math.txt', 'utf8').split('\n'),
+    creditsTotal: 30,
+  },
+  science: {
+    codes: fs.readFileSync('./codes/science.txt', 'utf8').split('\n'),
+    creditsTotal: 20,
+  },
+  language: {
+    codes: fs.readFileSync('./codes/language.txt', 'utf8').split('\n'),
+    creditsTotal: 20,
+  },
+  visual: {
+    codes: fs.readFileSync('./codes/visual_pa.txt', 'utf8').split('\n'),
+    creditsTotal: 10,
+  },
+  pe: {
+    codes: fs.readFileSync('./codes/pe.txt', 'utf8').split('\n'),
+    creditsTotal: 20,
+  },
+  electives: {
+    codes: fs.readFileSync('./codes/electives.txt', 'utf8').split('\n'),
+    creditsTotal: 50,
+  },
+  collegeCareer: {
+    codes: fs.readFileSync('./codes/college_career.txt', 'utf8').split('\n'),
+    creditsTotal: 5,
+  },
+  health: {
+    codes: fs.readFileSync('./codes/health.txt', 'utf8').split('\n'),
+    creditsTotal: 5,
+  },
+  ignore: {
+    codes: fs.readFileSync('./codes/ignore.txt', 'utf8').split('\n'),
+    creditsTotal: 0,
+  },
+};
+
+console.log(Object.keys(courseCategories));
+
 if (!fs.existsSync(`${__dirname}/students/`)){
     fs.mkdirSync(`${__dirname}/students/`);
 }
@@ -14,6 +64,21 @@ const { data, errors } = Papa.parse(
   { dynamicTyping: true, header: true },
 );
 
+const findCourseCategory = id => {
+  const courseCategoriesKeys = Object.keys(courseCategories);
+
+  let category = 'N/A';
+  courseCategoriesKeys.forEach(selectedCategory => {
+    const codes = courseCategories[selectedCategory].codes;
+    if (codes.find(code => code === id)) {
+      category = selectedCategory;
+      return false;
+    }
+  });
+
+  return category;
+}
+
 // create students array
 const students = data.reduce((acc, value, currentIndex) => {
   const studentName = value['Name'];
@@ -23,6 +88,7 @@ const students = data.reduce((acc, value, currentIndex) => {
   const course = {
     id: value['CourseID'],
     title: value['CourseTitle'],
+    category: findCourseCategory(value['CourseID']),
   };
   const grade = {
     value: value['Mark'],
@@ -111,7 +177,7 @@ students.forEach(student => {
     fileString = `${fileString}\n\n${course.title}`;
 
     course.grades.forEach(grade => {
-      fileString = `${fileString}\n  ${grade.value}  ${grade.creditCompleted}/${grade.creditAttempted}  ${grade.month < 10 ? `0${grade.month}` : grade.month}/${grade.year}`;
+      fileString = `${fileString}\n  ${grade.value}  ${grade.creditCompleted}/${grade.creditAttempted}  ${grade.month < 10 ? `0${grade.month}` : grade.month}/${grade.year}    ${course.category}`;
     })
   });
 
