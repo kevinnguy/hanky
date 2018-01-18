@@ -54,6 +54,7 @@ students.forEach(student => {
     fileString = `${fileString}\n${row['Course Title']} - Grade: ${row['Mark']} Credit: ${row['GenericField1']}/${row['GenericField2']}`
   });
 
-  fs.writeFileSync(`${__dirname}/students/${name}txt`, fileString);
+  const fileName = `${name.replace(/ /g,'_').replace(/[.,]/g,'')}.txt`;
+  fs.writeFileSync(`${__dirname}/students/${fileName}`, fileString);
 })
 
