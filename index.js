@@ -89,8 +89,11 @@ students.forEach(student => {
   // write file
   let fileString = `${name}\n\n`;
   courses.forEach(course => {
-    // fileString = `${fileString}${course.title}${course.mark.padStart(20 - course.title.length)}  ${course.creditCompleted}/${course.creditAttempted}`
-    fileString = `${fileString}\n\n${JSON.stringify(course, undefined, 2)}`;
+    fileString = `${fileString}\n\n${course.title}`;
+
+    course.grades.forEach(grade => {
+      fileString = `${fileString}\n  ${grade.value}  ${grade.creditCompleted}/${grade.creditAttempted}  ${grade.month < 10 ? `0${grade.month}` : grade.month}/${grade.year}`;
+    })
   });
 
   const fileName = `${name.replace(/ /g,'_').replace(/[.,]/g,'')}.txt`;
