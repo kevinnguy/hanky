@@ -4,10 +4,11 @@
   "license": "MIT",
   "dependencies": {
     "lodash": "^4.17.4",
+    "papaparse": "^4.3.6",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-scripts": "1.1.0",
-    "papaparse": "^4.3.6"
+    "react-dropzone": "^4.2.7",
+    "react-scripts": "1.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
