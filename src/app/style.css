@@ -26,3 +26,15 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.Dropzone-container {
+  padding: 30px;
+}
+
+.Dropzone {
+  height: 400px;
+  weight: 400px;
+  border-width: 10px;
+  border-style: dashed;
+  border-radius: 10px;
+}
