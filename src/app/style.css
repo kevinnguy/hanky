@@ -1,40 +1,56 @@
+p {
+  color: rgb(50, 50, 50);
+  font-size: 1.8em;
+  font-weight: 400;
+  margin-bottom: 60px;
+}
+
 .App {
   text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.Dropzone-container {
   padding: 30px;
 }
 
-.Dropzone {
+.border-blue {
+  border-color: rgb(141, 192, 252) !important;
+}
+
+.table-cells {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.table {
+  display: table;
   height: 400px;
-  weight: 400px;
-  border-width: 10px;
-  border-style: dashed;
+  width: 400px;
+}
+
+.container {
+  border-color: transparent;
   border-radius: 10px;
+  border-style: dashed;
+  border-width: 8px;
+}
+
+.emoji {
+  font-size: 4em;
+  margin-bottom: -20px;
+}
+
+.button {
+  align-items: center;
+  background: rgba(85, 157, 243, 0.03);
+  border: 1px solid rgb(165, 206, 255);
+  border-radius: 3px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px;
+  color: rgb(85, 157, 243);
+  cursor: pointer;
+  display: inline-flex;
+  /* flex-grow: 0; */
+  /* flex-shrink: 0; */
+  font-size: 16px;
+  font-weight: 500;
+  justify-content: center;
+  padding: 8px 16px;
+  /* user-select: none; */
 }

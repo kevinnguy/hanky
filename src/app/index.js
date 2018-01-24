@@ -65,33 +65,59 @@ class App extends Component {
     this.setState({ isActive: false });
   }
 
+  onClickRestart = () => {
+    this.setState({ isFinished: false, isProcessing: false });
+  }
+
   renderDropzone = (
-    <div className='Dropzone-container'>
-      <Dropzone
-        className='Dropzone'
-        onDrop={this.onDrop}
-        onDragEnter={this.onDragEnter}
-        onDragLeave={this.onDragLeave} />
-    </div>
+    <Dropzone
+      className='container table border-blue'
+      onDrop={this.onDrop}
+      onDragEnter={this.onDragEnter}
+      onDragLeave={this.onDragLeave}>
+      <div className='table-cells'>
+        <p className='emoji'>{'📋'}</p>
+        <p className='Dropzone-text'>{'Drop CSV file'}</p>
+      </div>
+    </Dropzone>
   )
 
   renderProcessing = (
-    <p className="App-intro">
-      {'Proccessing right now!'}
-    </p>
+    <div className='container table'>
+      <div className='table-cells'>
+        <p className='emoji'>{'🤔'}</p>
+        <p className='text'>{'Processing CSV File'}</p>
+      </div>
+    </div>
+  )
+
+  renderFinished = (
+    <div className='container table'>
+      <div className='table-cells'>
+        <p className='emoji'>{'🙌'}</p>
+        <p className='text'>{'Finished!'}</p>
+        <div
+          className='button'
+          onClick={this.onClickRestart}>
+          {'Add another CSV'}
+        </div>
+      </div>
+    </div>
   )
 
   render() {
     const { isProcessing, isFinished } = this.state;
 
+    let component = this.renderDropzone;
+    if (isProcessing) {
+      component = this.renderProcessing;
+    } else if (isFinished) {
+      component = this.renderFinished;
+    }
+
     return (
-      <div className="App">
-        { isProcessing && !isFinished ? this.renderProcessing : this.renderDropzone }
-        { isFinished && (
-          <p className="App-intro">
-            {'You GUCCI'}
-          </p>
-        )}
+      <div className='App'>
+        { component }
       </div>
     );
   }
