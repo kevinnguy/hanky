@@ -1,12 +1,15 @@
 {
   "name": "hanky",
   "version": "1.1.0",
+  "author": "Kevin Nguy",
   "license": "MIT",
   "main": "src/electron/index.js",
   "homepage": "./",
   "scripts": {
-    "build": "react-scripts build",
+    "build": "react-scripts build && electron-builder --dir --mac --win",
     "electron": "electron .",
+    "electron-build": "electron-builder --mac --win",
+    "postinstall": "electron-builder install-app-deps",
     "start": "react-scripts start",
     "test": "react-scripts test --env=jsdom"
   },
@@ -21,6 +24,17 @@
     "react-scripts": "1.1.0"
   },
   "devDependencies": {
-    "electron": "^1.7.11"
+    "electron": "^1.7.11",
+    "electron-builder": "^19.55.2"
+  },
+  "build": {
+    "appId": "com.kevinnguy.hanky",
+    "productName": "Hanky",
+    "directories": {
+        "buildResources": "public"
+    },
+    "mac": {
+      "type": "distribution"
+    }
   }
 }
