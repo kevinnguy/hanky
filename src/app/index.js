@@ -10,7 +10,6 @@ import {
   studentsFromCSV,
 } from '../helpers';
 
-import logo from './logo.svg';
 import './style.css';
 
 class App extends Component {
