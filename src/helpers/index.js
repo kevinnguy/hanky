@@ -85,15 +85,6 @@ const findCourseCategory = courseID => {
 
 const studentsFromCSV = csv => (
   csv.data.reduce((acc, value, currentIndex) => {
-    const studentName = value['Name'];
-    const student = acc.filter(
-      selectedStudent => selectedStudent.name === studentName
-    )[0];
-    const course = {
-      id: value['CourseID'],
-      title: value['CourseTitle'],
-      category: findCourseCategory(value['CourseID']),
-    };
     const grade = {
       value: value['Mark'],
       creditAttempted: value['CreditAttempted'],
@@ -109,6 +100,16 @@ const studentsFromCSV = csv => (
     ) {
       return acc;
     }
+
+    const studentName = value['Name'];
+    const student = acc.filter(
+      selectedStudent => selectedStudent.name === studentName
+    )[0];
+    const course = {
+      id: value['CourseID'],
+      title: value['CourseTitle'],
+      category: findCourseCategory(value['CourseID']),
+    };
 
     // create student object and store it
     if (!student) {
